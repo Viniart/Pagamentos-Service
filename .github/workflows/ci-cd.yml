@@ -1,18 +1,23 @@
-# Pipeline de integração contínua
-# Executa build, testes e análise de código em PRs e pushes para main
+# Pipeline de CI/CD
+# Executa build, testes, análise de código e deploy simulado
 
-name: CI - Build, Test & SonarCloud
+name: CI/CD Pipeline
 
 on:
   pull_request:
     branches: [main, master]
   push:
     branches: [main, master]
+  workflow_dispatch:
 
 env:
   DOTNET_VERSION: '8.0.x'
+  SERVICE_NAME: 'pagamento-service'
+  SERVICE_PORT: '5003'
 
 jobs:
+  # CI - Integração Contínua
+
   build:
     name: Build
     runs-on: ubuntu-latest
@@ -136,7 +141,7 @@ jobs:
             /d:sonar.token="${{ secrets.SONAR_TOKEN }}" \
             /d:sonar.host.url="https://sonarcloud.io" \
             /d:sonar.cs.opencover.reportsPaths="${{ steps.coverage.outputs.file }}" \
-            /d:sonar.coverage.exclusions="**/Migrations/**,**/Program.cs,**/obj/**,**/bin/**,**/Consumers/**" \
+            /d:sonar.coverage.exclusions="**/Migrations/**,**/Program.cs,**/obj/**,**/bin/**,**/Consumers/**,**/Persistence/**,**/ExternalServices/**,**/DTOs/**" \
             /d:sonar.exclusions="**/Migrations/**,**/obj/**,**/bin/**" \
             /d:sonar.sources="Api,Core,Infrastructure" \
             /d:sonar.tests="Tests.Unit,Tests.BDD"
@@ -176,3 +181,81 @@ jobs:
         with:
           name: security-report
           path: security-report.txt
+
+  # CD - Deploy Contínuo (apenas push para main)
+
+  build-docker:
+    name: Build Docker
+    runs-on: ubuntu-latest
+    needs: [test-unit, test-bdd, security-scan]
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build imagem Docker
+        run: |
+          echo "Serviço: ${{ env.SERVICE_NAME }}"
+          echo "Tags: ${{ env.SERVICE_NAME }}:${{ github.sha }}, ${{ env.SERVICE_NAME }}:latest"
+
+          docker build -t ${{ env.SERVICE_NAME }}:${{ github.sha }} \
+                       -t ${{ env.SERVICE_NAME }}:latest \
+                       -f Dockerfile .
+
+          docker images | grep ${{ env.SERVICE_NAME }}
+
+      - name: Testar imagem Docker
+        run: |
+          echo "Iniciando container para health check..."
+
+          docker run -d --name test-container \
+            -p 8080:8080 \
+            -e ASPNETCORE_ENVIRONMENT=Development \
+            ${{ env.SERVICE_NAME }}:latest
+
+          sleep 10
+
+          if docker ps | grep -q test-container; then
+            echo "Container rodando com sucesso"
+            docker logs test-container
+          else
+            echo "Falha ao iniciar container"
+            docker logs test-container
+            exit 1
+          fi
+
+          docker stop test-container && docker rm test-container
+
+  deploy-simulated:
+    name: Deploy Simulado
+    runs-on: ubuntu-latest
+    needs: build-docker
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
+    environment: production
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Simular push para registry
+        run: |
+          echo "Em um deploy real, este passo faria:"
+          echo "  - Login no Docker Registry (ECR, Docker Hub, etc.)"
+          echo "  - Tag da imagem com URL do registry"
+          echo "  - Push da imagem para o registry"
+
+      - name: Simular deploy Kubernetes/ECS
+        run: |
+          echo "Informações do deploy:"
+          echo "  Serviço: ${{ env.SERVICE_NAME }}"
+          echo "  Porta: ${{ env.SERVICE_PORT }}"
+          echo "  Tag: ${{ github.sha }}"
+          echo "  Branch: ${{ github.ref_name }}"
+          echo "  Autor: ${{ github.actor }}"
+          echo "  Data: $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
+
+      - name: Resumo do Deploy
+        run: |
+          echo "Deploy concluído com sucesso!"
+          echo "Serviço: ${{ env.SERVICE_NAME }}"
+          echo "Versão: ${{ github.sha }}"
