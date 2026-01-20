@@ -1,0 +1,43 @@
+## .NET
+bin/
+obj/
+*.user
+*.userosscache
+*.suo
+*.cache
+*.dll
+*.pdb
+*.exe
+
+## Visual Studio
+.vs/
+*.sln.docstates
+
+## IDE
+.idea/
+*.swp
+*~
+
+## Build results
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+build/
+[Bb]in/
+[Oo]bj/
+
+## NuGet
+*.nupkg
+**/packages/*
+!**/packages/build/
+
+## Test results
+TestResults/
+coverage/
+*.coverage
+*.coveragexml
+
+## Misc
+.DS_Store
+Thumbs.db
