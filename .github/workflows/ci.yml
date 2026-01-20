@@ -137,7 +137,9 @@ jobs:
             /d:sonar.host.url="https://sonarcloud.io" \
             /d:sonar.cs.opencover.reportsPaths="${{ steps.coverage.outputs.file }}" \
             /d:sonar.coverage.exclusions="**/Migrations/**,**/Program.cs,**/obj/**,**/bin/**,**/Consumers/**" \
-            /d:sonar.exclusions="**/Migrations/**,**/obj/**,**/bin/**"
+            /d:sonar.exclusions="**/Migrations/**,**/obj/**,**/bin/**" \
+            /d:sonar.sources="Api,Core,Infrastructure" \
+            /d:sonar.tests="Tests.Unit,Tests.BDD"
 
       - name: Compilar para SonarCloud
         run: dotnet build --configuration Release
