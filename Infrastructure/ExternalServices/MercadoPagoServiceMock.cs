@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Logging;
 using PagamentoService.Core.Interfaces;
+using System.Diagnostics.CodeAnalysis;
 
 namespace PagamentoService.Infrastructure.ExternalServices;
 
@@ -7,6 +8,7 @@ namespace PagamentoService.Infrastructure.ExternalServices;
 /// Mock do serviço Mercado Pago para demonstração.
 /// Em produção, substituir por integração real com a API do Mercado Pago.
 /// </summary>
+[ExcludeFromCodeCoverage]
 public class MercadoPagoServiceMock : IMercadoPagoService
 {
     private readonly ILogger<MercadoPagoServiceMock> _logger;

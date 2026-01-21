@@ -158,16 +158,16 @@ namespace Tests.BDD.Features
 #line 8
     await testRunner.GivenAsync("que não existe um cliente com CPF \"12345678901\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Dado ");
 #line hidden
-                global::Reqnroll.Table table1 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table3 = new global::Reqnroll.Table(new string[] {
                             "Nome",
                             "Email",
                             "CPF"});
-                table1.AddRow(new string[] {
+                table3.AddRow(new string[] {
                             "João da Silva",
                             "joao.silva@example.com",
                             "12345678901"});
 #line 9
-    await testRunner.WhenAsync("eu cadastrar um cliente com os seguintes dados:", ((string)(null)), table1, "Quando ");
+    await testRunner.WhenAsync("eu cadastrar um cliente com os seguintes dados:", ((string)(null)), table3, "Quando ");
 #line hidden
 #line 12
     await testRunner.ThenAsync("o cliente deve ser cadastrado com sucesso", ((string)(null)), ((global::Reqnroll.Table)(null)), "Então ");
@@ -209,14 +209,14 @@ namespace Tests.BDD.Features
 #line 18
     await testRunner.GivenAsync("que não existe um cliente com CPF \"98765432100\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Dado ");
 #line hidden
-                global::Reqnroll.Table table2 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table4 = new global::Reqnroll.Table(new string[] {
                             "Nome",
                             "CPF"});
-                table2.AddRow(new string[] {
+                table4.AddRow(new string[] {
                             "Maria dos Santos",
                             "98765432100"});
 #line 19
-    await testRunner.WhenAsync("eu cadastrar um cliente sem email:", ((string)(null)), table2, "Quando ");
+    await testRunner.WhenAsync("eu cadastrar um cliente sem email:", ((string)(null)), table4, "Quando ");
 #line hidden
 #line 22
     await testRunner.ThenAsync("o cliente deve ser cadastrado com sucesso", ((string)(null)), ((global::Reqnroll.Table)(null)), "Então ");
@@ -349,14 +349,14 @@ namespace Tests.BDD.Features
 #line 39
     await testRunner.GivenAsync("que existe um cliente cadastrado com ID \"550e8400-e29b-41d4-a716-446655440010\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Dado ");
 #line hidden
-                global::Reqnroll.Table table3 = new global::Reqnroll.Table(new string[] {
+                global::Reqnroll.Table table5 = new global::Reqnroll.Table(new string[] {
                             "Nome",
                             "Email"});
-                table3.AddRow(new string[] {
+                table5.AddRow(new string[] {
                             "João Silva Atualizado",
                             "joao.novo@example.com"});
 #line 40
-    await testRunner.WhenAsync("eu atualizar os dados do cliente:", ((string)(null)), table3, "Quando ");
+    await testRunner.WhenAsync("eu atualizar os dados do cliente:", ((string)(null)), table5, "Quando ");
 #line hidden
 #line 43
     await testRunner.ThenAsync("os dados do cliente devem ser atualizados com sucesso", ((string)(null)), ((global::Reqnroll.Table)(null)), "Então ");

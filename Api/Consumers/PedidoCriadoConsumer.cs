@@ -1,9 +1,11 @@
 using MassTransit;
 using Compartilhado.Events;
 using PagamentoService.Core.UseCases;
+using System.Diagnostics.CodeAnalysis;
 
 namespace PagamentoService.Api.Consumers;
 
+[ExcludeFromCodeCoverage]
 public class PedidoCriadoConsumer : IConsumer<PedidoCriadoEvent>
 {
     private readonly PagamentoUseCases _pagamentoUseCases;
