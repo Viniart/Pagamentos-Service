@@ -66,6 +66,8 @@ using (var scope = app.Services.CreateScope())
     dbContext.Database.EnsureCreated();
 }
 
+// Comentário de Teste do Quality Gate
+
 // Configure the HTTP request pipeline
 app.UseSwagger();
 app.UseSwaggerUI();
