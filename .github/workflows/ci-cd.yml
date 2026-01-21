@@ -156,7 +156,7 @@ jobs:
         run: dotnet sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
 
       - name: Verificar Quality Gate
-        uses: sonarsource/sonarqube-quality-gate-action@0f50927e8562ba051e5ecbb56efc5e30a498390c
+        uses: sonarsource/sonarqube-quality-gate-action@dc2f7b0dd95544cd550de3c90a84ec38c0ec7f2c  
         timeout-minutes: 5
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
