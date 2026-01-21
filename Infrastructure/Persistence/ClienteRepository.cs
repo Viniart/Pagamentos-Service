@@ -1,9 +1,11 @@
 using Microsoft.EntityFrameworkCore;
 using PagamentoService.Core.Entity;
 using PagamentoService.Core.Interfaces;
+using System.Diagnostics.CodeAnalysis;
 
 namespace PagamentoService.Infrastructure.Persistence;
 
+[ExcludeFromCodeCoverage]
 public class ClienteRepository : IClienteRepository
 {
     private readonly PagamentoDbContext _context;

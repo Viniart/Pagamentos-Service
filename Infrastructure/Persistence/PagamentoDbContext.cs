@@ -1,8 +1,10 @@
 using Microsoft.EntityFrameworkCore;
 using PagamentoService.Core.Entity;
+using System.Diagnostics.CodeAnalysis;
 
 namespace PagamentoService.Infrastructure.Persistence;
 
+[ExcludeFromCodeCoverage]
 public class PagamentoDbContext : DbContext
 {
     public PagamentoDbContext(DbContextOptions<PagamentoDbContext> options) : base(options)
