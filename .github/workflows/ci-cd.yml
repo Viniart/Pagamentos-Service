@@ -200,7 +200,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Setup Docker Buildx
-        uses: docker/setup-buildx-action@v3
+        uses: docker/setup-buildx-action@c7c4c00f3eef127be487a50899a220e44c6bcc87
 
       - name: Build imagem Docker
         run: |
