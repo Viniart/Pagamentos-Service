@@ -150,16 +150,10 @@ jobs:
       - name: Compilar para SonarCloud
         run: dotnet build --configuration Release
 
-      - name: Finalizar análise SonarCloud
+      - name: Finalizar análise SonarCloud e Verificar Quality Gate
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: dotnet sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
-
-      - name: Verificar Quality Gate
-        uses: sonarsource/sonarqube-quality-gate-action@cb3ed20f9fec62b4c3b8ad9e77656c6adaade913  
-        timeout-minutes: 5
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
   security-scan:
     name: Verificação de Segurança
